@@ -18,7 +18,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>org.sonatype.haven.HavenCli</mainClass>
+                  <mainClass>SonarReports</mainClass>
                 </transformer>
               </transformers>
             </configuration>

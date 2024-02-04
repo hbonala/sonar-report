@@ -4,6 +4,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -14,12 +15,14 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 public class SonarReports {
     public static String COOKIE = null;
     public static void main(String[] args) {
+        System.out.println("Running main class");
         System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.SimpleLog");
         System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
         System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.http.wire", "DEBUG");
@@ -54,15 +57,16 @@ public class SonarReports {
         URI uri = null;
         try {
             uri = new URIBuilder("http://sonar.kroger.com/sonar/api/measures/search_history")
-                    .addParameter("from", simpleDateFormat.format(new Date()))
+                    .addParameter("from", LocalDateTime.now().toString())
                     .addParameter("component", projectKey)
                     .addParameter("metrics", "bugs,vulnerabilities,sqale_index,duplicated_lines_density,ncloc,coverage,lines_to_cover,uncovered_lines")
                     .addParameter("ps", "1000")
                     .build();
             HttpGet request = new HttpGet(uri);
             request.setHeader("Cookie", COOKIE);
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+            CloseableHttpClient httpClient = HttpClients.custom().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build();
             CloseableHttpResponse response = httpClient.execute(request);
+            System.out.println("Status code:" + response.getStatusLine().getStatusCode());
             HttpEntity httpEntity = response.getEntity();
             if(httpEntity != null){
                 return EntityUtils.toString(httpEntity);

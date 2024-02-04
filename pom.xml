@@ -44,7 +44,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.sonatype.haven.HavenCli</mainClass>
+                                    <mainClass>SonarReports</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
