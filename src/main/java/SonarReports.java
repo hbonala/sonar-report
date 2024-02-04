@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -55,9 +56,9 @@ public class SonarReports {
     public static String getSonarReport(String projectKey) {
         URI uri = null;
         try {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss+SSSz");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSz");
             uri = new URIBuilder("http://sonar.kroger.com/sonar/api/measures/search_history")
-                    .addParameter("from", LocalDateTime.now().format(dateTimeFormatter))
+                    .addParameter("from", simpleDateFormat.format(new Date()))
                     .addParameter("component", projectKey)
                     .addParameter("metrics", "bugs,vulnerabilities,sqale_index,duplicated_lines_density,ncloc,coverage,lines_to_cover,uncovered_lines")
                     .addParameter("ps", "1000")
