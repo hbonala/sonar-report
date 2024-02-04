@@ -56,7 +56,7 @@ public class SonarReports {
     public static String getSonarReport(String projectKey) {
         URI uri = null;
         try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSz");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS");
             uri = new URIBuilder("http://sonar.kroger.com/sonar/api/measures/search_history")
                     .addParameter("from", simpleDateFormat.format(new Date()))
                     .addParameter("component", projectKey)
