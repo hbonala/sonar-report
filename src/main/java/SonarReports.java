@@ -57,11 +57,16 @@ public class SonarReports {
         URI uri = null;
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS");
-            uri = new URIBuilder("http://sonar.kroger.com/sonar/api/measures/search_history")
-                    .addParameter("from", simpleDateFormat.format(new Date()))
-                    .addParameter("component", projectKey)
-                    .addParameter("metrics", "bugs,vulnerabilities,sqale_index,duplicated_lines_density,ncloc,coverage,lines_to_cover,uncovered_lines")
-                    .addParameter("ps", "1000")
+//            uri = new URIBuilder("http://sonar.kroger.com/sonar/api/measures/search_history")
+//                    .addParameter("from", simpleDateFormat.format(new Date()))
+//                    .addParameter("component", projectKey)
+//                    .addParameter("metrics", "bugs,vulnerabilities,sqale_index,duplicated_lines_density,ncloc,coverage,lines_to_cover,uncovered_lines")
+//                    .addParameter("ps", "1000")
+//                    .addParameter("branch", "develop")
+//                    .build();
+            uri = new URIBuilder("http://sonar.kroger.com/sonar/api/measures/component")
+                    .addParameter("additionalFields", "period,metrics")
+                    .addParameter("metricKeys", "alert_status,quality_gate_details,bugs,new_bugs,reliability_rating,new_reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,new_security_rating,security_hotspots,new_security_hotspots,security_hotspots_reviewed,new_security_hotspots_reviewed,security_review_rating,new_security_review_rating,code_smells,new_code_smells,sqale_rating,new_maintainability_rating,sqale_index,new_technical_debt,coverage,new_coverage,lines_to_cover,new_lines_to_cover,tests,duplicated_lines_density,new_duplicated_lines_density,duplicated_blocks,ncloc,ncloc_language_distribution,projects,lines,new_lines")
                     .addParameter("branch", "develop")
                     .build();
             HttpGet request = new HttpGet(uri);
