@@ -62,6 +62,7 @@ public class SonarReports {
                     .addParameter("component", projectKey)
                     .addParameter("metrics", "bugs,vulnerabilities,sqale_index,duplicated_lines_density,ncloc,coverage,lines_to_cover,uncovered_lines")
                     .addParameter("ps", "1000")
+                    .addParameter("branch", "develop")
                     .build();
             HttpGet request = new HttpGet(uri);
             request.setHeader("Cookie", COOKIE);
