@@ -41,6 +41,7 @@ public class SonarReports {
                 try {
                     String outputJson = getSonarReport(projectKey);
                     if(outputJson != null){
+                        System.out.println(outputJson);
                         FileUtils.writeStringToFile(outputFile, outputJson + ",", Charset.defaultCharset(), true);
                     }
                 } catch (IOException e) {
