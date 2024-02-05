@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,18 +36,18 @@ public class SonarReports {
             List<String> projectKeys = FileUtils.readLines(projectKeysFiles);
 
             File outputFile = new File("sonar-reports-" + new Date().getTime());
-            FileUtils.writeStringToFile(outputFile, "{");
+            FileUtils.writeStringToFile(outputFile, "{", Charset.defaultCharset(), true);
             projectKeys.forEach(projectKey -> {
                 try {
                     String outputJson = getSonarReport(projectKey);
                     if(outputJson != null){
-                        FileUtils.writeStringToFile(outputFile, outputJson + ",");
+                        FileUtils.writeStringToFile(outputFile, outputJson + ",", Charset.defaultCharset(), true);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
-            FileUtils.writeStringToFile(outputFile, "}");
+            FileUtils.writeStringToFile(outputFile, "}", Charset.defaultCharset(), true);
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
